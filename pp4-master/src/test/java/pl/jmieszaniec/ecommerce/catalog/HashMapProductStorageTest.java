@@ -1,5 +1,6 @@
-package pl.jmieszaniec.ecommerce;
+package pl.jmieszaniec.ecommerce.catalog;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -18,7 +19,7 @@ public class HashMapProductStorageTest {
         hasMapStorage.add(product);
 
         List<Product> products = hasMapStorage.allProducts();
-        assertThat(products)
+        Assertions.assertThat(products)
                 .hasSize(1)
                 .extracting(Product::getName)
                 .contains("test-it");
