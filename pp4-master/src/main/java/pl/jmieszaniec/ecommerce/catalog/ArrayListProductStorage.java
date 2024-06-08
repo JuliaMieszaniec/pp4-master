@@ -13,13 +13,12 @@ public class ArrayListProductStorage implements ProductStorage {
 
     @Override
     public List<Product> allProducts() {
-
         return Collections.unmodifiableList(products);
     }
 
     @Override
-    public void add(Product newProduct){
-        products.add(newProduct);
+    public void add(Product product){
+        products.add(product);
     }
 
     @Override

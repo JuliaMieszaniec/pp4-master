@@ -4,6 +4,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import pl.jmieszaniec.ecommerce.catalog.ProductCatalog;
+import pl.jmieszaniec.ecommerce.catalog.ArrayListProductStorage;
+import pl.jmieszaniec.ecommerce.sales.SalesFacade;
+import pl.jmieszaniec.ecommerce.sales.cart.HashMapCartStorage;
+
+import java.math.BigDecimal;
 
 @SpringBootApplication
 public class App {
@@ -12,10 +17,19 @@ public class App {
         SpringApplication.run(App.class, args);
     }
     @Bean
-    ProductCatalog createMyProductCatalog(){
-        ProductCatalog productCatalog = new ProductCatalog();
-        productCatalog.addProduct("lego set 1", "nice one");
-        productCatalog.addProduct("car set 2", "nice one");
-        return   productCatalog;
+    ProductCatalog createCatalog() {
+        var catalog = new ProductCatalog(new ArrayListProductStorage());
+        var pid1 = catalog.addProduct("Lego set 8083", "nice one");
+        catalog.changePrice(pid1, BigDecimal.valueOf(100.10));
+
+        var pid2 = catalog.addProduct("Cobi set 8083", "nice one");
+        catalog.changePrice(pid2, BigDecimal.valueOf(50.10));
+
+        return catalog;
+    }
+    @Bean
+    SalesFacade createSales(){
+        return new SalesFacade(new HashMapCartStorage());
     }
 }
+
