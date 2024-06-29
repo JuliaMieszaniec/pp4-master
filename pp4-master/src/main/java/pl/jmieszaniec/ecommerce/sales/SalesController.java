@@ -1,6 +1,9 @@
 package pl.jmieszaniec.ecommerce.sales;
 
 import org.springframework.web.bind.annotation.*;
+import pl.jmieszaniec.ecommerce.sales.offering.Offer;
+import pl.jmieszaniec.ecommerce.sales.reservation.AcceptOfferRequest;
+import pl.jmieszaniec.ecommerce.sales.reservation.ReservationDetails;
 //import org.springframework.web.bind.annotation.GetMapping;
 
 public class SalesController {

@@ -10,6 +10,9 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import pl.jmieszaniec.ecommerce.catalog.ProductCatalog;
+import pl.jmieszaniec.ecommerce.sales.offering.Offer;
+import pl.jmieszaniec.ecommerce.sales.reservation.AcceptOfferRequest;
+import pl.jmieszaniec.ecommerce.sales.reservation.ReservationDetails;
 
 import java.math.BigDecimal;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)

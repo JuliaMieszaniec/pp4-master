@@ -7,6 +7,12 @@ import pl.jmieszaniec.ecommerce.catalog.ProductCatalog;
 import pl.jmieszaniec.ecommerce.catalog.ArrayListProductStorage;
 import pl.jmieszaniec.ecommerce.sales.SalesFacade;
 import pl.jmieszaniec.ecommerce.sales.cart.HashMapCartStorage;
+import pl.jmieszaniec.ecommerce.sales.offering.OfferCalculator;
+import pl.jmieszaniec.ecommerce.sales.payment.PaymentDetails;
+import pl.jmieszaniec.ecommerce.sales.payment.PaymentGateway;
+import pl.jmieszaniec.ecommerce.sales.payment.RegisterPaymentRequest;
+import pl.jmieszaniec.ecommerce.sales.reservation.ReservationRepository;
+
 
 import java.math.BigDecimal;
 
@@ -29,7 +35,17 @@ public class App {
     }
     @Bean
     SalesFacade createSales(){
-        return new SalesFacade(new HashMapCartStorage());
+        return new SalesFacade(
+                new HashMapCartStorage(),
+                new OfferCalculator(),
+                new PaymentGateway() {
+                    @Override
+                    public PaymentDetails registerPayment(RegisterPaymentRequest registerPaymentRequest) {
+                        return null;
+                    }
+                },
+                new ReservationRepository()
+        );
     }
 }
 

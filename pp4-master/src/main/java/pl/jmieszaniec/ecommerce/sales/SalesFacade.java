@@ -2,12 +2,28 @@ package pl.jmieszaniec.ecommerce.sales;
 
 import pl.jmieszaniec.ecommerce.sales.cart.Cart;
 import pl.jmieszaniec.ecommerce.sales.cart.HashMapCartStorage;
+import pl.jmieszaniec.ecommerce.sales.offering.Offer;
+import pl.jmieszaniec.ecommerce.sales.offering.OfferCalculator;
+import pl.jmieszaniec.ecommerce.sales.payment.PaymentDetails;
+import pl.jmieszaniec.ecommerce.sales.payment.PaymentGateway;
+import pl.jmieszaniec.ecommerce.sales.payment.RegisterPaymentRequest;
+import pl.jmieszaniec.ecommerce.sales.reservation.AcceptOfferRequest;
+import pl.jmieszaniec.ecommerce.sales.reservation.Reservation;
+import pl.jmieszaniec.ecommerce.sales.reservation.ReservationDetails;
+import pl.jmieszaniec.ecommerce.sales.reservation.ReservationRepository;
+import java.util.UUID;
 
 public class SalesFacade {
     private HashMapCartStorage cartStorage;
+    private OfferCalculator offerCalculator;
+    private PaymentGateway paymentGateway;
+    private ReservationRepository reservationRepository;
 
-    public SalesFacade(HashMapCartStorage cartStorage) {
+    public SalesFacade(HashMapCartStorage cartStorage, OfferCalculator offerCalculator, PaymentGateway paymentGateway, ReservationRepository reservationRespository) {
         this.cartStorage = cartStorage;
+        this.offerCalculator = offerCalculator;
+        this.paymentGateway = paymentGateway;
+        this.reservationRepository = reservationRespository;
     }
     public Offer getCurrentOffer(String customerId){
         return new Offer();
@@ -25,6 +41,22 @@ public class SalesFacade {
     }
 
     public ReservationDetails acceptOffer(String customerId, AcceptOfferRequest acceptOfferRequest) {
-        return new ReservationDetails();
+        String reservationId = UUID.randomUUID().toString();
+        Offer offer = this.getCurrentOffer(customerId);
+
+        PaymentDetails paymentDetails = paymentGateway.registerPayment(
+                RegisterPaymentRequest.of(reservationId, acceptOfferRequest, offer.getTotal())
+        );
+
+        Reservation reservation = Reservation.of(
+                reservationId,
+                customerId,
+                acceptOfferRequest,
+                offer,
+                paymentDetails);
+
+        reservationRepository.add(reservation);
+
+        return new ReservationDetails(reservationId, paymentDetails.getPaymentUrl());
     }
 }

@@ -1,7 +1,18 @@
 package pl.jmieszaniec.ecommerce.sales.cart;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 public class HashMapCartStorage {
+    Map<String, Cart> carts;
+
+    public HashMapCartStorage() {
+        this.carts = new HashMap<>();
+    }
     public Optional<Cart> getForCustomer(String customerId) {
-        return Optional.empty();
+        return Optional.ofNullable(carts.get(customerId));
+    }
+
+    public void save(String customerId, Cart cart){
+        carts.put(customerId, cart);
     }
 }

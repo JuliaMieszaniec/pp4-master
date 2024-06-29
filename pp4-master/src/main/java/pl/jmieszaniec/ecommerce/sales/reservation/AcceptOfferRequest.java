@@ -1,4 +1,4 @@
-package pl.jmieszaniec.ecommerce.sales;
+package pl.jmieszaniec.ecommerce.sales.reservation;
 
 public class AcceptOfferRequest {
     private String fname;

@@ -2,6 +2,7 @@ package pl.jmieszaniec.ecommerce.sales;
 
 import org.junit.jupiter.api.Test;
 import pl.jmieszaniec.ecommerce.sales.cart.HashMapCartStorage;
+import pl.jmieszaniec.ecommerce.sales.offering.Offer;
 
 import java.math.BigDecimal;
 
